@@ -130,3 +130,34 @@ N個の生成データに対して上記の過程を繰り返す。
 <a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;D&space;(\hat{x}_n^{(r)})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;D&space;(\hat{x}_n^{(r)})" title="\Delta D (\hat{x}_n^{(r)})" /></a>
 は-1から1までの値をとる。  
 
+### 3.2. 考察
+
+人間GANは、「コンピュータによって解くことが困難な課題を、人間の処理能力を利用して解決すること」であるヒューマンコンピュテーションを利用したものであり、人間参加型(human-in-the-loop)の機械学習技術とみなされる。  
+
+人間の知覚をDNNに組み込む人間参加型の技術はすでにいくつか存在している。  
+
+### 3.3. 課題
+
+- 生成モデルの初期化
+
+人間GANの生成モデルは事後確率を最大化するように学習される。  
+故に、初期の生成モデルから生成されるデータが知覚分布のmode近傍のみに分布する場合、学習を進めるとmode collapseの問題が発生してしまう。  
+また、生成されるデータが知覚分布から大きく離れた領域飲みに分布する場合、通常のGANと同様にgradient vanishingによりモデルパラメータが更新されない問題も発生する。  
+
+- 摂動の標準偏差<a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>への敏感性
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
+の値の大きさに応じて、生成データに加えられる摂動の大きさが変化する。  
+適度に小さな値の
+<a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
+を用いると、人間GANの識別器では知覚的な差異が発生せずに勾配が消失する。  
+一方で、過度に大きな
+<a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
+を用いると、正確な勾配推定が行われない。
+
+- 人間への問合せ回数
+
+人間への問合せ回数は、学習反復回数と生成データ数と摂動回数の積になる。  
+この問合せ回数の増加は、人間による知覚評価にかかる様々なコストを爆増させる。  
+
+## 4. 実験的評価
