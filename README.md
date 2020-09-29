@@ -53,4 +53,80 @@ N個の実在データを
 
 ### 2.1. 生成モデルの学習
 
-生成モデル
+生成モデルG(・)は、式(1)を最小化するように学習される。  
+G(・)のモデルパラメータを
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G" title="\theta_G" /></a>
+とすると、
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G" title="\theta_G" /></a>
+は次の式で推定される。
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G&space;=&space;\underset{\theta_G}{argmin}&space;\sum^N_{n=1}&space;log&space;(1&space;-&space;D(G(z_n)))&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(2)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G&space;=&space;\underset{\theta_G}{argmin}&space;\sum^N_{n=1}&space;log&space;(1&space;-&space;D(G(z_n)))&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(2)" title="\theta_G = \underset{\theta_G}{argmin} \sum^N_{n=1} log (1 - D(G(z_n))) \ \ \ \ \ \ \ \ (2)" /></a>
+
+すなわち、G(・)は、D(・)が生成データを実在データとして識別するように学習される。  
+
+### 2.2. 式別モデルの学習
+
+識別モデルD(・)は、式(1)を-1倍した関数を最小化するように学習される。  
+D(・)のモデルパラメータを
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_&space;D" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_&space;D" title="\theta_ D" /></a>
+とすると、
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_&space;D" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_&space;D" title="\theta_ D" /></a>
+は次の式で推定される。  
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_&space;D&space;=&space;\underset{\theta_D}{argmax}&space;-V(G,&space;D)&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(3)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_&space;D&space;=&space;\underset{\theta_D}{argmax}&space;-V(G,&space;D)&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(3)" title="\theta_ D = \underset{\theta_D}{argmax} -V(G, D) \ \ \ \ \ \ \ \ (3)" /></a>
+
+### 2.3. 問題点
+
+通常のGANは実在データのようなものを作ることができるが、人間の知覚は実在データ以上に広いので、人間の知覚の範囲内全てで生成することが難しい。  
+
+## 3. 人間GAN
+
+人間GANは通常のGANの識別モデルを人間の知覚評価で置換した手法。  
+
+<img width="300" alt="人間GAN" src="https://user-images.githubusercontent.com/39772824/94516671-48b77d00-0261-11eb-8941-1ee2582024e6.png">
+
+G(・)がDNNを使って作られることや、入力に既知の確率分布に従う乱数を使うことは通常のGANと同様。  
+一方で、通常のGANではD(・)には人間の知覚評価を使っている。  
+このD(・)は、G(・)から生成された
+<a href="https://www.codecogs.com/eqnedit.php?latex=\hat{x}_n" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\hat{x}_n" title="\hat{x}_n" /></a>
+を入力とし、この入力が「どの程度許容できるか」を0から1の値で事後確率として出力する。  
+学習時の目的関数V(・)は次の式になる。  
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;D(G(z_n))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;D(G(z_n))" title="V(G, D) = \sum^N_{n=1} D(G(z_n))" /></a>
+
+人間GANでは学習過程には実在データを使用しない。
+
+### 3.1. 生成モデルの学習
+
+G(・)のモデルパラメータ
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G" title="\theta_G" /></a>
+は、式(4)を最大化するように学習される。  
+人間GANでは勾配法による反復学習法を考える。  
+すなわち、
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G" title="\theta_G" /></a>
+は次の式で反復的に更新される。  
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\theta_G&space;^{(new)}&space;=&space;\theta_G&space;&plus;&space;\alpha&space;\frac{\partial&space;V(G,&space;D)}{\partial&space;\theta_G}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\theta_G&space;^{(new)}&space;=&space;\theta_G&space;&plus;&space;\alpha&space;\frac{\partial&space;V(G,&space;D)}{\partial&space;\theta_G}" title="\theta_G ^{(new)} = \theta_G + \alpha \frac{\partial V(G, D)}{\partial \theta_G}" /></a>
+
+この時、
+<a href="https://www.codecogs.com/eqnedit.php?latex=\alpha" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\alpha" title="\alpha" /></a>
+は学習係数を示す。  
+
+D(・)が人間による知覚評価なので、微分不可能であるため、「生成データに対して事後確率分布を出力するblack-boxシステム」とみなしている。  
+
+以下の手順で最適化を行っている。  
+
+1. 生成データ<a href="https://www.codecogs.com/eqnedit.php?latex=\hat{x}_n" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\hat{x}_n" title="\hat{x}_n" /></a>に対し、正規分布<a href="https://www.codecogs.com/eqnedit.php?latex=N(0,&space;\sigma^2&space;I)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?N(0,&space;\sigma^2&space;I)" title="N(0, \sigma^2 I)" /></a>からランダムに生成した摂動<a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;x_n^{(r)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;x_n^{(r)}" title="\Delta x_n^{(r)}" /></a>を付与する。
+1. 摂動後の2つのデータ<a href="https://www.codecogs.com/eqnedit.php?latex=\{&space;\hat{x}_n&space;&plus;&space;\Delta&space;x_n^{(r)}&space;,&space;\hat{x}_n&space;-&space;\Delta&space;x_n-{(r)}&space;\}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\{&space;\hat{x}_n&space;&plus;&space;\Delta&space;x_n^{(r)}&space;,&space;\hat{x}_n&space;-&space;\Delta&space;x_n-{(r)}&space;\}" title="\{ \hat{x}_n + \Delta x_n^{(r)} , \hat{x}_n - \Delta x_n-{(r)} \}" /></a>を評価者に提示する。
+1. それらのデータの差分を解答させる。
+1. 2~3をある生成データ<a href="https://www.codecogs.com/eqnedit.php?latex=\hat{x}_n" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\hat{x}_n" title="\hat{x}_n" /></a>に対してR回繰り返す。
+
+N個の生成データに対して上記の過程を繰り返す。  
+
+評価者に解答させる差分は以下の式に表される。
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;D&space;(\hat{x}_n^{(r)})&space;\equiv&space;D(\hat{x}_n&space;&plus;&space;\Delta&space;x_n^{(r)})&space;-&space;D&space;(\hat{x}_n&space;-&space;\Delta&space;x_n^{(r)})&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(6)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;D&space;(\hat{x}_n^{(r)})&space;\equiv&space;D(\hat{x}_n&space;&plus;&space;\Delta&space;x_n^{(r)})&space;-&space;D&space;(\hat{x}_n&space;-&space;\Delta&space;x_n^{(r)})&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(6)" title="\Delta D (\hat{x}_n^{(r)}) \equiv D(\hat{x}_n + \Delta x_n^{(r)}) - D (\hat{x}_n - \Delta x_n^{(r)}) \ \ \ \ \ \ \ \ (6)" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;D&space;(\hat{x}_n^{(r)})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;D&space;(\hat{x}_n^{(r)})" title="\Delta D (\hat{x}_n^{(r)})" /></a>
+は-1から1までの値をとる。  
+
