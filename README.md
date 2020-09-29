@@ -31,6 +31,7 @@ GANは画像、音声、言語などの多様な分野で成功例が存在す�
 -> 通常のGANは、データを生成する生成モデル(Generator)G(・)と、実在データと生成データを識別する識別モデル(Discriminator)D(・)を用いる。  
 (G(・)とD(・)はDNN。)  
 
+<img width="300" alt="GAN" src="https://user-images.githubusercontent.com/39772824/94514638-af866780-025c-11eb-9899-aa09c6eceb58.png">
 
 N個の実在データを
 <a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;{\bf&space;x}&space;=&space;{x_1,&space;\cdots&space;.&space;x_n&space;,&space;\cdots&space;,&space;x_N}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{120}&space;{\bf&space;x}&space;=&space;{x_1,&space;\cdots&space;.&space;x_n&space;,&space;\cdots&space;,&space;x_N}" title="{\bf x} = {x_1, \cdots . x_n , \cdots , x_N}" /></a>
@@ -51,3 +52,4 @@ N個の実在データを
 <a href="https://www.codecogs.com/eqnedit.php?latex=V(&space;\cdot&space;)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(&space;\cdot&space;)" title="V( \cdot )" /></a>
 は次の式。  
 <a href="https://www.codecogs.com/eqnedit.php?latex=V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))" title="V(G, D) = \sum^N_{n=1} log D(x_n) + \sum^N _{n=1} log(1 - D(G(Z_n)))" /></a>
+
