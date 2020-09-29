@@ -51,5 +51,7 @@ N個の実在データを
 学習時の目的関数
 <a href="https://www.codecogs.com/eqnedit.php?latex=V(&space;\cdot&space;)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(&space;\cdot&space;)" title="V( \cdot )" /></a>
 は次の式。  
-<a href="https://www.codecogs.com/eqnedit.php?latex=V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))" title="V(G, D) = \sum^N_{n=1} log D(x_n) + \sum^N _{n=1} log(1 - D(G(Z_n)))" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(1)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V(G,&space;D)&space;=&space;\sum^N_{n=1}&space;log&space;D(x_n)&space;&plus;&space;\sum^N&space;_{n=1}&space;log(1&space;-&space;D(G(Z_n)))&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;\&space;(1)" title="V(G, D) = \sum^N_{n=1} log D(x_n) + \sum^N _{n=1} log(1 - D(G(Z_n))) \ \ \ \ \ \ \ \ (1)" /></a>
+
+### 2.1. 生成モデルの学習
 
