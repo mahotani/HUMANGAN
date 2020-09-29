@@ -161,3 +161,60 @@ N個の生成データに対して上記の過程を繰り返す。
 この問合せ回数の増加は、人間による知覚評価にかかる様々なコストを爆増させる。  
 
 ## 4. 実験的評価
+
+### 4.1. 実験条件
+
+実験的評価では、提案する人間GANが音声の自然性の知覚分布を表現できるかを調査する。  
+すなわち、評価者が人間GANが生成した音声を聞いて、人間の音声として許容できる音声特徴量の知覚分布を表現する。  
+この評価では、通常のGANとの比較、データの次元数削減、生成モデルパラメータの初期化のために音声コーパスを利用する。  
+使用するコーパスは女性199名の音声である。  
+
+### 4.2. 実在データ分布と知覚分布の違いの確認
+
+人間GANの必要性を実験的に確認するために、実在データ分布と知覚分布が異なることを示す。  
+2次元の空間をグリッド分割し、各グリッドにおける自然性の許容度を評価する。  
+評価は5段階で行われた(人間らしくない音声なら1、人間らしい音声なら5)。
+1から5のそれぞれの値を事後確率
+<a href="https://www.codecogs.com/eqnedit.php?latex=D(\hat{x}_n)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?D(\hat{x}_n)" title="D(\hat{x}_n)" /></a>
+の0.00, 0.25, 0.50, 0.75, 1.00に対応させる。  
+各グリッドの事後確率の値は、複数の評価値の平均である。  
+次の図が結果。
+
+<img width="600" alt="コーパスのカラーマップ" src="https://user-images.githubusercontent.com/39772824/94546207-87acf900-0288-11eb-8c41-d2376448fc26.png">
+
+### 4.3. 生成モデル学習による生成データの変化
+
+生成モデル学習の様子を定性的に確認するために、学習の各反復における生成データをプロットする。  
+生成モデルに入力する乱数は、2次元の一様分布
+<a href="https://www.codecogs.com/eqnedit.php?latex=U(-1,&space;1)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?U(-1,&space;1)" title="U(-1, 1)" /></a>
+に従うものとする。  
+この乱数は、学習のはじめにランダムに生成され、学習中は固定される。  
+初期の生成モデルパラメータはランダムに決定する。  
+以下の値を用いて学習を行った。  
+
+- 学習率<a href="https://www.codecogs.com/eqnedit.php?latex=\alpha&space;=&space;0.0015" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\alpha&space;=&space;0.0015" title="\alpha = 0.0015" /></a>
+- 音声特徴量数<a href="https://www.codecogs.com/eqnedit.php?latex=N=100" target="_blank"><img src="https://latex.codecogs.com/gif.latex?N=100" title="N=100" /></a>
+- 摂動回数<a href="https://www.codecogs.com/eqnedit.php?latex=R&space;=&space;5" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R&space;=&space;5" title="R = 5" /></a>
+- 学習の反復回数 = 4
+
+人間による評価には、クラウドソーシングサービス(Lancers)を使用する。  
+評価時の質問は、2つの音声を聞いてもらい以下を問う。  
+「1個目の方が人間らしいほど(1)を、2個目の方が人間らしいほど(5)を選択してください。両方同程度なら(3)を選択してください。」  
+ここで得られた回答の1から5の値を、それぞれ事後確率の差分
+<a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;D(\hat{x}_n^{(r)}))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;D(\hat{x}_n^{(r)}))" title="\Delta D(\hat{x}_n^{(r)}))" /></a>
+の-1.0, -0.5, 0.0, 0.5, 1.0に対応させる。  
+
+<img width="923" alt="HUMANGANの学習の推移" src="https://user-images.githubusercontent.com/39772824/94548758-26872480-028c-11eb-9e87-b2be82c404b6.png">
+
+### 4.4. 生成モデル学習による事後確率の増加
+
+学習の反復により事後確率が増加することを定量的に確認する。  
+ここでは、学習に用いた乱数とは別の乱数を発生させ、新たな特徴量を生成する。  
+各反復における事後確率の箱ひげ図を示す。  
+
+<img width="600" alt="事後確率箱ひげ図" src="https://user-images.githubusercontent.com/39772824/94551605-91d2f580-0290-11eb-85f3-1730b55edf2c.png">
+
+## 5. まとめ
+
+人間GANでは人間の許容できるデータの範囲(知覚分布)を表現可能な生成モデル学習のために、人間による知覚評価を詐称する敵対的生成ネットワークを提案していた。  
+今後は人間と計算機の共創に基づく敵対的生成ネットワークを検討するらしい。
